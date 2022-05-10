@@ -13,12 +13,12 @@ import cv2
 import os
 import pickle
 import dlib
-import check_liveness
+from modules import check_liveness
 
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("face_detector/shape_predictor_68_face_landmarks.dat")
 
 g_user = 'unknown'
-g_cascade = 'haarcascade_frontalface_default.xml'
+g_cascade = 'face_detector/haarcascade_frontalface_default.xml'
 
 
 class Main(tk.Frame):
@@ -111,7 +111,7 @@ class Main(tk.Frame):
             print("[INFO] проверка моргания...")
             #if check_liveness.check_blink():
             if check_liveness.blinking():
-                face_control("face_last_login.png")
+                face_control("resources/face_last_login.png")
             else:
                 mb.showinfo(title="Ошибка входа", message="Проверка не пройдена, пожалуйста попробуйте еще раз либо"
                                                           " создайте новую учетную запись,"
@@ -119,7 +119,7 @@ class Main(tk.Frame):
         toolbar = tk.Frame(bg='#c1beef', bd=2)
         toolbar.pack(side=tk.TOP, fill=tk.X)
 
-        self.avatar_img = tk.PhotoImage(file='avatar.png')
+        self.avatar_img = tk.PhotoImage(file='resources/avatar.png')
         btn_avatar_dialog = tk.Button(toolbar, text='   Учетная запись ', command=lambda: login_by_face(),
                                       bg='#c1beef', bd=0, compound=tk.TOP, image=self.avatar_img)
         btn_avatar_dialog.pack(side=tk.RIGHT)
@@ -128,7 +128,7 @@ class Main(tk.Frame):
         label_authorized.configure(font=("Times New Roman", 14, "italic"))
         label_authorized.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
-        root.login_img = tk.PhotoImage(file='login.png')
+        root.login_img = tk.PhotoImage(file='resources/login.png')
         btn_login = tk.Button(root, text='Авторизоваться', font=("Times New Roman", 10, "italic"),
                               command=lambda: login_by_face(), bg='#e6e6fa', bd=0,
                               compound=tk.TOP, image=root.login_img)
@@ -241,7 +241,7 @@ class New_user(tk.Toplevel):
                 vs.stop()
 
         def callback(name):
-            if os.path.isdir("dataset_img/" + name.get()):
+            if os.path.isdir("authentity_dataset/" + name.get()):
                 user_entry.config(bg='red')
                 btn_login.config(state=tk.DISABLED)
             else:
@@ -264,9 +264,9 @@ class New_user(tk.Toplevel):
         user_entry = tk.Entry(self, textvariable=sv, width=50, font=("Times New Roman", 14), bd=1)
         user_entry.place(relx=0.5, rely=0.35, anchor=tk.CENTER)
 
-        self.camera_img = tk.PhotoImage(file='camera.png')
+        self.camera_img = tk.PhotoImage(file='resources/camera.png')
         btn_login = tk.Button(self, font=("Times New Roman", 10, "italic"),
-                              command=lambda: dataset_creation("dataset_img/" + sv.get()), bg='#e6e6fa', bd=0,
+                              command=lambda: dataset_creation("authentity_dataset/" + sv.get()), bg='#e6e6fa', bd=0,
                               compound=tk.TOP, image=self.camera_img)
         btn_login.place(relx=0.5, rely=0.65, anchor=tk.CENTER)
         btn_login.config(state=tk.DISABLED)
@@ -280,7 +280,7 @@ def put_text_pil(img: np.array, txt: str):
     im = Image.fromarray(img)
 
     font_size = 16
-    font = ImageFont.truetype('TimesNewRoman.ttf', size=font_size)
+    font = ImageFont.truetype('resources/TimesNewRoman.ttf', size=font_size)
 
     draw = ImageDraw.Draw(im)
     w, h = draw.textsize(txt, font=font)
