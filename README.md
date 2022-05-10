@@ -1,5 +1,5 @@
 # twoFactorLivenessDetection
-As dissertation project, CNN and blink detection
+Created as master degree final project, using CNN and blink detection to prevent face spoofing
 
 App could prevent authentication with face spoofing by photo or video (maybe printed 3d mask, not yet tested)
 
